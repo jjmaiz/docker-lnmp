@@ -1,6 +1,7 @@
 ARG PHP_VERSION
 ARG SWOOLE_VERSION
 ARG AMQP_VERSION
+ARG PHPREDIS_VERSION
 
 FROM daocloud.io/library/php:$PHP_VERSION-fpm-alpine
 
@@ -18,10 +19,10 @@ COPY config/php.ini /usr/local/etc/php
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 RUN cd ~ \
-    && wget https://github.com/phpredis/phpredis/archive/$PHP_VERSION.tar.gz \
-    && tar -zxvf $PHP_VERSION.tar.gz \
+    && wget https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
+    && tar -zxvf $PHPREDIS_VERSION.tar.gz \
     && mkdir -p /usr/src/php/ext \
-    && mv phpredis-$PHP_VERSION /usr/src/php/ext/redis \
+    && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
     && docker-php-ext-install redis \
     && wget https://pecl.php.net/get/amqp-$AMQP_VERSION.tgz \
     && tar -zxvf amqp-$AMQP_VERSION.tgz \
